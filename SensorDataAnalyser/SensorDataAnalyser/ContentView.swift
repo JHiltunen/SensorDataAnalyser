@@ -1,16 +1,23 @@
-//
-//  ContentView.swift
-//  SensorDataAnalyser
-//
-//  Created by iosdev on 20.4.2022.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        TabView {
+            NavigationView {
+                Home()
+                // .navigationBarTitle("Data Analyzer")
+            }
+            
+            .tabItem {
+                SwiftUI.Image(systemName: "house")
+                Text("Home")
+            }
+            Upload()
+                .tabItem {
+                    SwiftUI.Image(systemName: "icloud.and.arrow.up")
+                    Text("Upload")
+                }
+        }
     }
 }
 
