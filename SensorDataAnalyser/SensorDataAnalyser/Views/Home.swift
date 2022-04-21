@@ -59,7 +59,7 @@ struct Home: View {
                     .font(.system(size: 20, design: .rounded))
                     .onAppear {
                         Task {
-                            await loadData(searchAdress: "https://sensordataanalyserbackend.herokuapp.com/files")
+                            await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
                         }
                     }
                 
