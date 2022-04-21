@@ -1,15 +1,19 @@
-//
-//  Upload.swift
-//  SensorDataAnalyser
-//
-//  Created by iosdev on 20.4.2022.
-//
-
 import SwiftUI
 
 struct Upload: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            Button(action: {
+                
+            }) {
+                Text("Send")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(.indigo)
+                    .foregroundColor(Color.white)
+                    .cornerRadius(10)
+            }
+        } .padding()
     }
 }
 

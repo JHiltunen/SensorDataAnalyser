@@ -2,6 +2,32 @@ import SwiftUI
 
 struct Home: View {
     
+    // let response = try? newJSONDecoder().decode(Response.self, from: jsonData)
+    
+    @State private var results = Response()
+    
+    func loadData(searchAdress: String) async {
+        guard let url = URL(string: searchAdress) else {
+            print("Invalid URL")
+            return
+        }
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            if let decodedResponse = try? JSONDecoder().decode(Response.self, from: data) {
+//                for result in decodedResponse {
+//                    DispatchQueue.main.async {}
+//                }
+                results = decodedResponse
+                print(results)
+            } else {
+                print("Invalid data 1")
+            }
+        } catch {
+            print("Error info: \(error)")
+        }
+    }
+    
     private let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     // Flexible, custom amount of columns that fill the remaining space
@@ -31,6 +57,11 @@ struct Home: View {
                     .cornerRadius(15)
                     .padding(.bottom)
                     .font(.system(size: 20, design: .rounded))
+                    .onAppear {
+                        Task {
+                            await loadData(searchAdress: "https://sensordataanalyserbackend.herokuapp.com/files")
+                        }
+                    }
                 
                 LazyVGrid(columns: adaptiveColumns, spacing: 20) {
                     ForEach(months, id: \.self) { month in
