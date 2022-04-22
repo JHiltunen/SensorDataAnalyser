@@ -1,11 +1,13 @@
 import SwiftUI
+import Foundation
 
 struct Home: View {
     
     // let response = try? newJSONDecoder().decode(Response.self, from: jsonData)
     
     @State private var results = Response()
-    
+    @State private var results2 = [Datum]()
+    @State private var aikaLeima: Int = 0
     func loadData(searchAdress: String) async {
         guard let url = URL(string: searchAdress) else {
             print("Invalid URL")
@@ -20,6 +22,29 @@ struct Home: View {
 //                }
                 results = decodedResponse
                 print(results)
+            } else {
+                print("Invalid data 1")
+            }
+        } catch {
+            print("Error info: \(error)")
+        }
+    }
+    
+    func loadSpecificData(searchAdress: String) async {
+        guard let url = URL(string: searchAdress) else {
+            print("Invalid URL")
+            return
+        }
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let movesenseAcceleration = try? JSONDecoder().decode(MovesenseAcceleration.self, from: data){
+//                for result in decodedResponse {
+//                    DispatchQueue.main.async {}
+//                }
+                
+                results2 = movesenseAcceleration.data
+                aikaLeima = (results2[0].acc.timestamp)
+                print("AARGH!!!",results2[0].acc.timestamp)
             } else {
                 print("Invalid data 1")
             }
@@ -50,7 +75,7 @@ struct Home: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                Text("Deviation")
+                Text("Deviation \(String(aikaLeima))")
                     .frame(maxWidth: .infinity, minHeight: 50)
                     .background(.indigo)
                     .foregroundColor(.white)
@@ -59,7 +84,11 @@ struct Home: View {
                     .font(.system(size: 20, design: .rounded))
                     .onAppear {
                         Task {
+                            await loadSpecificData(searchAdress: "http://localhost:8080/files/read/")
+                            //await loadData(searchAdress: "http://localhost:8080/files/")
+                            /*
                             await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
+                             */
                         }
                     }
                 
@@ -81,11 +110,5 @@ struct Home: View {
             .padding()
             .navigationBarHidden(true)
         }
-    }
-}
-
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        Home()
     }
 }

@@ -13,6 +13,9 @@ struct Upload: View {
                     .foregroundColor(Color.white)
                     .cornerRadius(10)
             }
+            
+            Text("Total acceleration:")
+                .padding()
         } .padding()
     }
 }
