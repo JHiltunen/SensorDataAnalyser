@@ -16,6 +16,7 @@
 		6A6DE51B280FF31C009F769D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A6DE51A280FF31C009F769D /* Assets.xcassets */; };
 		6A6DE51E280FF31C009F769D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A6DE51D280FF31C009F769D /* Preview Assets.xcassets */; };
 		6A87B25128115055005B87EB /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A87B25028115055005B87EB /* Response.swift */; };
+		6AEF507B281483B4009B576B /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF507A281483B4009B576B /* DocumentPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		6A6DE51A280FF31C009F769D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A6DE51D280FF31C009F769D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6A87B25028115055005B87EB /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		6AEF507A281483B4009B576B /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		6A6DE515280FF31A009F769D /* SensorDataAnalyser */ = {
 			isa = PBXGroup;
 			children = (
+				6AEF5079281483A1009B576B /* Components */,
 				06C58F15281296B500294A0E /* MathTests */,
 				6A87B24F28114FCF005B87EB /* ApiResponse */,
 				6A3630E328100AE700F77C9F /* Views */,
@@ -106,6 +109,14 @@
 			path = ApiResponse;
 			sourceTree = "<group>";
 		};
+		6AEF5079281483A1009B576B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6AEF507A281483B4009B576B /* DocumentPicker.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -122,6 +133,8 @@
 			dependencies = (
 			);
 			name = SensorDataAnalyser;
+			packageProductDependencies = (
+			);
 			productName = SensorDataAnalyser;
 			productReference = 6A6DE513280FF31A009F769D /* SensorDataAnalyser.app */;
 			productType = "com.apple.product-type.application";
@@ -150,6 +163,8 @@
 				Base,
 			);
 			mainGroup = 6A6DE50A280FF31A009F769D;
+			packageReferences = (
+			);
 			productRefGroup = 6A6DE514280FF31A009F769D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -180,6 +195,7 @@
 				6A3630E9281026C700F77C9F /* Upload.swift in Sources */,
 				6A6DE519280FF31A009F769D /* ContentView.swift in Sources */,
 				06C58F17281296D300294A0E /* MathFunctions1.swift in Sources */,
+				6AEF507B281483B4009B576B /* DocumentPicker.swift in Sources */,
 				6A3630E528100AFB00F77C9F /* Home.swift in Sources */,
 				6A6DE517280FF31A009F769D /* SensorDataAnalyserApp.swift in Sources */,
 				6A87B25128115055005B87EB /* Response.swift in Sources */,
@@ -311,7 +327,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SensorDataAnalyser/Preview Content\"";
-				DEVELOPMENT_TEAM = JRZ7ZT88JB;
+				DEVELOPMENT_TEAM = NS26X99XW4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -324,7 +340,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.SensorDataAnalyser.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fi.SensorDataAnalyser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -340,7 +356,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SensorDataAnalyser/Preview Content\"";
-				DEVELOPMENT_TEAM = JRZ7ZT88JB;
+				DEVELOPMENT_TEAM = NS26X99XW4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -353,7 +369,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.SensorDataAnalyser.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fi.SensorDataAnalyser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
