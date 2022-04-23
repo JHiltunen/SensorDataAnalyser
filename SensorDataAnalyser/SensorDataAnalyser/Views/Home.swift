@@ -8,6 +8,7 @@ struct Home: View {
     @State private var results = Response()
     @State private var results2 = [Datum]()
     @State private var aikaLeima: Int = 0
+    @State private var aveRage: Double = 0.0
     func loadData(searchAdress: String) async {
         guard let url = URL(string: searchAdress) else {
             print("Invalid URL")
@@ -38,11 +39,19 @@ struct Home: View {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             if let movesenseAcceleration = try? JSONDecoder().decode(MovesenseAcceleration.self, from: data){
-//                for result in decodedResponse {
-//                    DispatchQueue.main.async {}
-//                }
-                
+//
                 results2 = movesenseAcceleration.data
+                var sum = 0.0
+                for i in 1...results2.count {
+                    let x = results2[i - 1].acc.arrayAcc[0].x
+                    let z = results2[i - 1].acc.arrayAcc[0].z
+                    let y = results2[i - 1].acc.arrayAcc[0].y
+                    
+                    let sqrtXZ = sqrt(x*x + z*z)
+                    let accXYZ = sqrt(y*y + sqrtXZ)
+                    sum += accXYZ
+                }
+                aveRage = sum / Double(results2.count)
                 aikaLeima = (results2[0].acc.timestamp)
                 print("AARGH!!!",results2[0].acc.timestamp)
             } else {
@@ -75,7 +84,7 @@ struct Home: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                Text("Deviation \(String(aikaLeima))")
+                Text("Deviation \(String(aveRage))")
                     .frame(maxWidth: .infinity, minHeight: 50)
                     .background(.indigo)
                     .foregroundColor(.white)
