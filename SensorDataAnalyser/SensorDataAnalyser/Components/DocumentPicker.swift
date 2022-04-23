@@ -12,7 +12,7 @@ struct DocumentPicker : UIViewControllerRepresentable {
     @Binding var alert : Bool
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController  {
-        let picker = UIDocumentPickerViewController(documentTypes: [UTType.json.description], in: .open)
+        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.json])
         picker.allowsMultipleSelection = false
         picker.delegate = context.coordinator
         return picker
