@@ -6,7 +6,7 @@ struct Upload: View {
     @State var alert = false
     
     var body: some View {
-        NavigationView {
+       
             VStack {
                 Button(action: {
                     self.show.toggle()
@@ -30,7 +30,7 @@ struct Upload: View {
                 .alert(isPresented: $alert) {
                     Alert(title: Text("Message"), message: Text("Uploaded Successfully!!!"), dismissButton: .default(Text("Ok")))
                 }
-            }
+            
         } .padding()
     }
 }

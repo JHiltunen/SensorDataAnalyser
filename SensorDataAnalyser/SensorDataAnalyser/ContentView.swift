@@ -1,12 +1,14 @@
 import SwiftUI
 
+
+
 struct ContentView: View {
     var body: some View {
         TabView {
-            NavigationView {
+         
                 Home()
                 // .navigationBarTitle("Data Analyzer")
-            }
+         
             
             .tabItem {
                 SwiftUI.Image(systemName: "house")
