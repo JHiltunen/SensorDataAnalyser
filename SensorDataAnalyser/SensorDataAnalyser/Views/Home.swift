@@ -2,7 +2,10 @@ import SwiftUI
 
 struct Home: View {
     
+    @State private var Avg: Int = 0
+    
     private let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    
     
     // Flexible, custom amount of columns that fill the remaining space
     private let numberColumns = [
@@ -13,12 +16,6 @@ struct Home: View {
     // Adaptive, make sure it's the size of your smallest element.
     private let adaptiveColumns = [
         GridItem(.adaptive(minimum: 150))
-    ]
-    
-    // Fixed, creates columns with fixed dimensions
-    private let fixedColumns = [
-        GridItem(.fixed(200)),
-        GridItem(.fixed(200))
     ]
     
     var body: some View {
@@ -39,9 +36,15 @@ struct Home: View {
                                 .frame(width: 150, height: 150)
                                 .foregroundColor(.indigo)
                                 .cornerRadius(15)
-                            Text("\(month)")
-                                .foregroundColor(.white)
-                                .font(.system(size: 20, design: .rounded))
+                            VStack {
+                                Text("\(month)")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 25, design: .rounded))
+                                    .padding(.bottom)
+                                Text("Avg: \(String(Avg))")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 20, design: .rounded))
+                            }
                         }
                     }
                 }
