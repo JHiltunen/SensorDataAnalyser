@@ -287,8 +287,8 @@ struct Home: View {
         
         
         ScrollView {
-            Text("Super average: \(String(averageAll))")
-            //Text("Super average: \(String(aveRage))")
+            //Text("Super average: \(String(averageAll))")
+            Text("Super average: \(String(aveRage))")
             //Text("Deviation \(String(aveRage))")
                 .frame(maxWidth: .infinity, minHeight: 50)
                 .background(.indigo)
@@ -298,8 +298,8 @@ struct Home: View {
                 .font(.system(size: 20, design: .rounded))
                 .onAppear  {
                     Task {
-                        //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
-                        await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath")
+                        await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
+                        //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath")
                         //await loadData(searchAdress: "http://localhost:8080/files/")
                         /*
                          await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
@@ -327,7 +327,7 @@ struct Home: View {
             
             
             
-            //LazyVGrid(columns: adaptiveColumns, spacing: 20) {
+            LazyVGrid(columns: adaptiveColumns, spacing: 20) {
             
                 ForEach(months, id: \.self) { month in
                     
@@ -361,7 +361,7 @@ struct Home: View {
                     
                 }
                 
-            //}
+            }
             
         }
         .navigationTitle("Data Analyzer")
