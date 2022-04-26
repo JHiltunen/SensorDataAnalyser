@@ -18,8 +18,8 @@ struct Home: View {
     @State private var reCent: Double = 0.0
     
     @State private var numero: Int = 0
+    @State private var totalAverage: Double = 0.0
     @State private var monthAverage: Double = 0.0
-    
     @State private var monthAverage1: Double = 0.0
     @State private var monthAverage2: Double = 0.0
     @State private var monthAverage3: Double = 0.0
@@ -32,6 +32,10 @@ struct Home: View {
     @State private var monthAverage10: Double = 0.0
     @State private var monthAverage11: Double = 0.0
     @State private var monthAverage12: Double = 0.0
+    
+    @State private var setColor: Color = Color.black
+    
+    
   
     
 
@@ -171,13 +175,20 @@ struct Home: View {
                 
                 //var jorma = (monthlyData["4"]?[0] ?? 9999) * 3
                 //print(jorma)
-                //var sum = 0.0
+                var totalSum = 0.0
+                var control = 0.0
                 resultsMonth = monthlyData
                 
                 if monthlyData[String(monthNumber)]!.count > 0  {
                     //print(monthlyData[String(i)])
                     monthAverage = (monthlyData[String(monthNumber)]?[0] ?? 0) * 1.0
                     print("CASEN MONTH AVERAGE: ", monthAverage, monthNumber)
+                    totalSum += monthAverage
+                    control += 1
+                }
+                if control > 0 {
+                    totalAverage = totalSum / control
+                    control = 0
                 }
                 
                 
@@ -257,8 +268,22 @@ struct Home: View {
         default:
             return 1
         }
+    }
+    
+    func deviationToColor(deviation: Double) -> Color {
+
+        let deviation = deviation
         
-        
+        switch deviation {
+        case 0...0.1:
+            return .indigo
+        case  0.1...0.5:
+            return .orange
+        case  0.5...100:
+            return  .red
+        default:
+            return .indigo
+        }
     }
     
     
@@ -283,12 +308,13 @@ struct Home: View {
         GridItem(.fixed(200))
     ]
     
+ 
     var body: some View {
         
         
         ScrollView {
-            //Text("Super average: \(String(averageAll))")
-            Text("Super average: \(String(aveRage))")
+            Text("Total average: \(String(totalAverage))")
+            //Text("Super average: \(String(aveRage))")
             //Text("Deviation \(String(aveRage))")
                 .frame(maxWidth: .infinity, minHeight: 50)
                 .background(.indigo)
@@ -298,8 +324,8 @@ struct Home: View {
                 .font(.system(size: 20, design: .rounded))
                 .onAppear  {
                     Task {
-                        await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
-                        //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath")
+                        //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
+                        await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath")
                         //await loadData(searchAdress: "http://localhost:8080/files/")
                         /*
                          await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
@@ -325,18 +351,44 @@ struct Home: View {
                     }
                 }
             
+            Text("Deviation |last  - average|: \(String(abs(reCent - totalAverage)))")
+            //Text("Deviation \(String(aveRage))")
+                .frame(maxWidth: .infinity, minHeight: 50)
+                .background(deviationToColor(deviation: abs(reCent - totalAverage)))
+                .foregroundColor(.white)
+                .cornerRadius(15)
+                .padding(.bottom)
+                .font(.system(size: 20, design: .rounded))
+                .onAppear {
+                    Task {
+                        await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
+                        await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
+                        //await loadData(searchAdress: "http://localhost:8080/files/")
+                        /*
+                         await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
+                         */
+                    }
+                }
+            
             
             
             LazyVGrid(columns: adaptiveColumns, spacing: 20) {
+               
             
                 ForEach(months, id: \.self) { month in
                     
+                    
+
+                    
+                    
                     ZStack {
-            
-                        Rectangle()
+                        setColor
                             .frame(width: 150, height: 150)
                             .foregroundColor(.indigo)
                             .cornerRadius(15)
+                        
+                        Rectangle()
+                            
                         VStack {
                             Text("\(month)")
                                 .foregroundColor(.white)
