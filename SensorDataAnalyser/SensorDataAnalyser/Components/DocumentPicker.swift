@@ -2,6 +2,7 @@ import SwiftUI
 import Foundation
 import MobileCoreServices
 import UniformTypeIdentifiers
+import Alamofire
 
 // tutorial: https://www.youtube.com/watch?v=q8y_eRVfpMA
 struct DocumentPicker : UIViewControllerRepresentable {
@@ -21,7 +22,9 @@ struct DocumentPicker : UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker>) {
         
     }
-    
+    struct Root : Decodable {
+        let data : [String]
+    }
     class Coordinator : NSObject, UIDocumentPickerDelegate {
         
         var parent : DocumentPicker
@@ -32,8 +35,23 @@ struct DocumentPicker : UIViewControllerRepresentable {
         
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             print(urls)
+            let fileUrl = urls[0]
             
-            // do file uploading
+            AF.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(fileUrl, withName: "file")
+            }, to: "http://localhost:8080/upload")
+                .responseDecodable(of: Root.self) { response in
+                    debugPrint(response)
+                }
+                .uploadProgress { progress in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                }
+                .downloadProgress { progress in
+                    print("Download Progress: \(progress.fractionCompleted)")
+                }
+                .responseDecodable(of: Root.self) { response in
+                    debugPrint(response)
+                }
         }
     }
 }
