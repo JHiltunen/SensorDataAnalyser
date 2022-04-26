@@ -15,7 +15,9 @@ struct Upload: View {
     var body: some View {
        
             VStack {
-                Text("Selected file \(selectedFileName)")
+                Text("Selected file: \(selectedFileName)")
+                    .multilineTextAlignment(TextAlignment.center)
+                    .padding()
                 Button(action: {
                     self.show.toggle()
                 }) {
