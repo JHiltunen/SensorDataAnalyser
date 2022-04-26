@@ -43,6 +43,8 @@ struct Upload: View {
                         .responseDecodable(of: Root.self) { response in
                             debugPrint(response)
                         }
+                    selectedFileName = ""
+                    selectedFileUrl = ""
                 }) {
                     Text("Send")
                         .padding()
@@ -51,7 +53,7 @@ struct Upload: View {
                 }
                 .disabled(selectedFileUrl.isEmpty ? true : false)
                 .alert(isPresented: $alert) {
-                    Alert(title: Text("Message"), message: Text("Uploaded Successfully!!!"), dismissButton: .default(Text("Ok")))
+                    Alert(title: Text("Message"), message: Text("File uploaded"), dismissButton: .default(Text("Ok")))
                 }
             
         } .padding()
