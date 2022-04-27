@@ -36,9 +36,9 @@ struct Home: View {
     @State private var setColor: Color = Color.black
     
     
-  
     
-
+    
+    
     
     func loadData(searchAdress: String) async {
         guard let url = URL(string: searchAdress) else {
@@ -95,7 +95,7 @@ struct Home: View {
             return
         }
         do {
-            print("MONTA KERTAA?????")
+            print("MONTA KERTAA MONTHDATA?????")
             let (data, _) = try await URLSession.shared.data(from: url)
             if let monthlyData = try? JSONDecoder().decode(ResponseMonth.self, from: data){
                 //print(monthlyData["4"]?[0])
@@ -133,7 +133,7 @@ struct Home: View {
         let month = month
         
         print("CASEN KUUKAUSI: ", month)
-
+        
         switch month {
         case "January":
             monthNumber = 1
@@ -200,7 +200,7 @@ struct Home: View {
         }
     }
     
-  
+    
     
     
     func loadSpecificData(searchAdress: String) async {
@@ -235,11 +235,11 @@ struct Home: View {
     }
     
     func monthToNumber(month: String) -> Int {
-
+        
         let month = month
         
         print("CASEN KUUKAUSI: ", month)
-
+        
         switch month {
         case "January":
             return 1
@@ -269,22 +269,76 @@ struct Home: View {
             return 1
         }
     }
-    
+    // Kunnon datalla:
+    /*
     func deviationToColor(deviation: Double) -> Color {
-
+        
         let deviation = deviation
         
         switch deviation {
-        case 0...0.1:
-            return .indigo
-        case  0.1...0.5:
+        case 0...0.01:
+            return .green
+        case  0.01...0.06:
             return .orange
-        case  0.5...100:
+        case  0.06...100:
             return  .red
         default:
-            return .indigo
+            return .white
         }
     }
+    
+    
+    func deviationToColor2(deviation: Double) -> Color {
+        
+        let deviation = deviation
+        
+        switch deviation {
+        case 0...0.01:
+            return .green
+        case  0.01...0.06:
+            return .orange
+        case  0.06...100:
+            return  .red
+        default:
+            return .white
+        }
+    }
+    */
+    
+    // Joonaksen datalla
+    func deviationToColor(deviation: Double) -> Color {
+        
+        let deviation = deviation
+        
+        switch deviation {
+        case 0...2:
+            return .green
+        case  2...2.8:
+            return .orange
+        case  2.8...100:
+            return  .red
+        default:
+            return .white
+        }
+    }
+    
+    
+    func deviationToColor2(deviation: Double) -> Color {
+        
+        let deviation = deviation
+        
+        switch deviation {
+        case 0...2:
+            return .green
+        case  2...2.8:
+            return .orange
+        case  2.8...100:
+            return  .red
+        default:
+            return .white
+        }
+    }
+    
     
     
     private let monthsWithNumber = ["January": 1, "February": 2, "March" : 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12]
@@ -308,113 +362,125 @@ struct Home: View {
         GridItem(.fixed(200))
     ]
     
- 
+    
     var body: some View {
         
         
         ScrollView {
-            Text("Total average: \(String(totalAverage))")
-            //Text("Super average: \(String(aveRage))")
+            Text("Total average:\(String(aveRage))")
+            //Text("Total average way 2: \(String(aveRage))")
             //Text("Deviation \(String(aveRage))")
-                .frame(maxWidth: .infinity, minHeight: 50)
+                .frame(maxWidth: .infinity, minHeight: 70)
                 .background(.indigo)
                 .foregroundColor(.white)
                 .cornerRadius(15)
                 .padding(.bottom)
                 .font(.system(size: 20, design: .rounded))
-                .onAppear  {
-                    Task {
-                        //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
-                        await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath")
-                        //await loadData(searchAdress: "http://localhost:8080/files/")
-                        /*
-                         await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
-                         */
-                    }
-                }
-            Text("Most recent average: \(String(reCent))")
-            //Text("Deviation \(String(aveRage))")
-                .frame(maxWidth: .infinity, minHeight: 50)
-                .background(.indigo)
-                .foregroundColor(.white)
-                .cornerRadius(15)
-                .padding(.bottom)
-                .font(.system(size: 20, design: .rounded))
-                .onAppear {
-                    Task {
-                        await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
-                        //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
-                        //await loadData(searchAdress: "http://localhost:8080/files/")
-                        /*
-                         await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
-                         */
-                    }
-                }
-            
-            Text("Deviation |last  - average|: \(String(abs(reCent - totalAverage)))")
-            //Text("Deviation \(String(aveRage))")
-                .frame(maxWidth: .infinity, minHeight: 50)
-                .background(deviationToColor(deviation: abs(reCent - totalAverage)))
-                .foregroundColor(.white)
-                .cornerRadius(15)
-                .padding(.bottom)
-                .font(.system(size: 20, design: .rounded))
-                .onAppear {
-                    Task {
-                        await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
-                        await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
-                        //await loadData(searchAdress: "http://localhost:8080/files/")
-                        /*
-                         await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
-                         */
-                    }
-                }
-            
-            
-            
-            LazyVGrid(columns: adaptiveColumns, spacing: 20) {
+                .task  {
+                    //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
+                    await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/allAverage/")
+                    
                
+                }
             
+            ZStack {
+                Rectangle()
+                
+                    .frame(width: .infinity, height: 200)
+                //.foregroundColor(.indigo)
+                    .foregroundColor(deviationToColor(deviation: abs(reCent - aveRage)))
+                    .cornerRadius(15)
+                //.padding()
+                
+                VStack{
+                    
+                    Text("Most recent average: \(String(reCent))")
+                    //Text("Deviation \(String(aveRage))")
+                        .frame(maxWidth: .infinity, minHeight: 70)
+                    
+                        .foregroundColor(.white)
+                        .cornerRadius(15)
+                    
+                        .font(.system(size: 20, design: .rounded))
+                        .task {
+                            //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
+                            await loadRecentAverage(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/recent/")
+                            
+                        }
+                    HStack {
+                        Text("Deviation |last  - average|: \(String(abs(reCent - aveRage)))")
+                        //Text("Deviation \(String(aveRage))")
+                        //.frame(maxWidth: .infinity, minHeight: 70)
+                        //.background(deviationToColor(deviation: abs(reCent - aveRage)))
+                            .foregroundColor(.white)
+                        //.padding(.bottom)
+                            .font(.system(size: 20, design: .rounded))
+                            .task {
+                                //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
+                                await loadRecentAverage(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/recent/")
+                                //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
+                                await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/allAverage/")
+                                //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
+                                //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
+                            }
+                        
+                        
+                        if (reCent - aveRage) < 0 {
+                            Image(systemName: "arrow.down")
+                                .foregroundColor(.white)
+                        } else if (reCent - aveRage) > 0 {
+                            Image(systemName: "arrow.up")
+                                .foregroundColor(.white)
+                        } else {
+                            Image(systemName: "arrow.left.and.right")
+                                .foregroundColor(.white)
+                        }
+                    }
+                    
+                    
+                }
+                
+            }.padding(.bottom)
+            
+            LazyVGrid(columns: adaptiveColumns) {
+                
                 ForEach(months, id: \.self) { month in
                     
-                    
-
-                    
-                    
                     ZStack {
-                        setColor
+                        
+                        Rectangle()
                             .frame(width: 150, height: 150)
                             .foregroundColor(.indigo)
                             .cornerRadius(15)
                         
-                        Rectangle()
-                            
                         VStack {
                             Text("\(month)")
                                 .foregroundColor(.white)
                                 .font(.system(size: 20, design: .rounded))
-                          
-                            
-                            Text("\(resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0)")
-                                .foregroundColor(.white)
-                                .font(.system(size: 20, design: .rounded))
-                                .onAppear {
-                                    Task {
-                                        await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
-                                        //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
-                                        //await loadData(searchAdress: "http://localhost:8080/files/")
-                                        /*
-                                         await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files")
-                                         */
+                            if ((resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0)) == 0 {
+                                Text("-")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 20, design: .rounded))
+                                    .task {
+                                        //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
+                                        await loadMonthDataForGrid(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/monthDataMath/", month: month)
+                                        
                                     }
-                                }
+                            } else {
+                                Text("\(resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0)")
+                                    .foregroundColor((deviationToColor2(deviation: abs((resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0) - aveRage))))
+                                    .font(.system(size: 20, design: .rounded))
+                                    .task {
+                                       //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
+                                        await loadMonthDataForGrid(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/monthDataMath/", month: month)
+
+                                    }
+                                
+                            }
                         }
                     }
-                    
                 }
-                
             }
-            
         }
         .navigationTitle("Data Analyzer")
         .padding()
