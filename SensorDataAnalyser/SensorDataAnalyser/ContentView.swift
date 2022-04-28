@@ -3,23 +3,24 @@ import SwiftUI
 
 
 struct ContentView: View {
+    
+    init() {
+        UITabBar.appearance().barTintColor = UIColor(Color(.black)) // custom color.
+      }
+    
     var body: some View {
         TabView {
-         
                 Home()
-                // .navigationBarTitle("Data Analyzer")
-         
-            
             .tabItem {
-                SwiftUI.Image(systemName: "house")
+                Image(systemName: "house")
                 Text("Home")
             }
             Upload()
                 .tabItem {
-                    SwiftUI.Image(systemName: "icloud.and.arrow.up")
+                    Image(systemName: "icloud.and.arrow.up")
                     Text("Upload")
                 }
-        }
+        } .accentColor(.white)
     }
 }
 

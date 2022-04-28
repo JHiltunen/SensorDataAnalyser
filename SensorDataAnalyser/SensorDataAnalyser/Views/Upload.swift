@@ -13,15 +13,20 @@ struct Upload: View {
     @State var selectedFileName: String = ""
     
     var body: some View {
-       
+        VStack {
+        Text("Data Analyzer")
+            .font(.title)
+        ZStack {
+            RadialGradient(gradient: Gradient(colors: [.blue, .black]), center: .center, startRadius: 2, endRadius: 650)
+                .edgesIgnoringSafeArea(.all)
             VStack {
-                Text("Selected file: \(selectedFileName)")
+                Text(" \(selectedFileName)")
                     .multilineTextAlignment(TextAlignment.center)
-                    .padding()
+                    .padding(.bottom)
                 Button(action: {
                     self.show.toggle()
                 }) {
-                    Text("Document picker")
+                    Text("Select file")
                 }
                 .sheet(isPresented: $show) {
                     DocumentPicker(alert: self.$alert, selectedFileURL: self.$selectedFileUrl, selectedFileName: self.$selectedFileName)
@@ -31,31 +36,31 @@ struct Upload: View {
                     AF.upload(multipartFormData: { multipartFormData in
                         multipartFormData.append(URL(string: selectedFileUrl)!, withName: "file")
                     }, to: "http://localhost:8080/upload")
-                        .responseDecodable(of: Root.self) { response in
-                            debugPrint(response)
-                        }
-                        .uploadProgress { progress in
-                            print("Upload Progress: \(progress.fractionCompleted)")
-                        }
-                        .downloadProgress { progress in
-                            print("Download Progress: \(progress.fractionCompleted)")
-                        }
-                        .responseDecodable(of: Root.self) { response in
-                            debugPrint(response)
-                        }
+                    .responseDecodable(of: Root.self) { response in
+                        debugPrint(response)
+                    }
+                    .uploadProgress { progress in
+                        print("Upload Progress: \(progress.fractionCompleted)")
+                    }
+                    .downloadProgress { progress in
+                        print("Download Progress: \(progress.fractionCompleted)")
+                    }
+                    .responseDecodable(of: Root.self) { response in
+                        debugPrint(response)
+                    }
                     selectedFileName = ""
                     selectedFileUrl = ""
                 }) {
-                    Text("Send")
+                    Text("Upload file")
                         .padding()
-                        .frame(maxWidth: .infinity)
-                        .cornerRadius(10)
                 }
                 .disabled(selectedFileUrl.isEmpty ? true : false)
                 .alert(isPresented: $alert) {
                     Alert(title: Text("Message"), message: Text("File uploaded"), dismissButton: .default(Text("Ok")))
                 }
-            
-        } .padding()
+                
+            } .padding()
+        }
+        }
     }
 }
