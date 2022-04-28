@@ -20,6 +20,11 @@ struct ContentView: View {
                     Image(systemName: "icloud.and.arrow.up")
                     Text("Upload")
                 }
+            Info()
+                .tabItem {
+                    Image(systemName: "info.circle")
+                    Text("Info")
+                }
         } .accentColor(.white)
     }
 }
