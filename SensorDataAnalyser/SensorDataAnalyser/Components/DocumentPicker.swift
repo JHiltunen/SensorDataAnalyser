@@ -41,24 +41,6 @@ struct DocumentPicker : UIViewControllerRepresentable {
             parent.selectedFileURL = fileUrl.absoluteString
             let lastIndex = fileUrl.absoluteString.lastIndex(of: "/")
             parent.selectedFileName = String(fileUrl.absoluteString.suffix(from: fileUrl.absoluteString.index(lastIndex!, offsetBy: 1)))
-
-            AF.upload(multipartFormData: { multipartFormData in
-                multipartFormData.append(fileUrl, withName: "file")
-            }, to: "\(serverUrl)upload")
-            //https://sensordataanalyserbackend.azurewebsites.net/
-            //http://localhost:8080/upload
-                .responseDecodable(of: Root.self) { response in
-                    debugPrint(response)
-                }
-                .uploadProgress { progress in
-                    print("Upload Progress: \(progress.fractionCompleted)")
-                }
-                .downloadProgress { progress in
-                    print("Download Progress: \(progress.fractionCompleted)")
-                }
-                .responseDecodable(of: Root.self) { response in
-                    debugPrint(response)
-                }
         }
         
     }
