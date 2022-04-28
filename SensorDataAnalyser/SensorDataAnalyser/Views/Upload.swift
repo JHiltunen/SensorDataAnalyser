@@ -1,14 +1,17 @@
 import SwiftUI
 import Alamofire
 
-struct Root : Decodable {
-    let data : [String]
+struct UploadResponse : Decodable {
+    let success : Bool
 }
 
 struct Upload: View {
     
     @State var show = false
     @State var alert = false
+    @State var alertTitle = ""
+    @State var alertMessage = ""
+    
     @State var selectedFileUrl: String = ""
     @State var selectedFileName: String = ""
     
@@ -33,17 +36,18 @@ struct Upload: View {
                     AF.upload(multipartFormData: { multipartFormData in
                         multipartFormData.append(URL(string: selectedFileUrl)!, withName: "file")
                     }, to: "http://localhost:8080/upload")
-                    .responseDecodable(of: Root.self) { response in
-                        debugPrint(response)
-                    }
-                    .uploadProgress { progress in
-                        print("Upload Progress: \(progress.fractionCompleted)")
-                    }
-                    .downloadProgress { progress in
-                        print("Download Progress: \(progress.fractionCompleted)")
-                    }
-                    .responseDecodable(of: Root.self) { response in
-                        debugPrint(response)
+                    .responseDecodable(of: UploadResponse.self) { response in
+                        
+                        if (response.value?.success == true) {
+                            alertTitle = "Message"
+                            alertMessage = "File uploaded successfully!"
+                            alert = true
+                        } else {
+                            alertTitle = "Message"
+                            alertMessage = "Wrong file type. Please upload only .json files!"
+                            alert = true
+                        }
+                        
                     }
                     selectedFileName = ""
                     selectedFileUrl = ""
@@ -53,7 +57,7 @@ struct Upload: View {
                 }
                 .disabled(selectedFileUrl.isEmpty ? true : false)
                 .alert(isPresented: $alert) {
-                    Alert(title: Text("Message"), message: Text("File uploaded"), dismissButton: .default(Text("Ok")))
+                    Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("Ok")))
                 }
                 
             } .padding()
