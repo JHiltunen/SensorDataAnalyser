@@ -29,6 +29,9 @@ struct DocumentPicker : UIViewControllerRepresentable {
         
         var parent : DocumentPicker
         
+        //let serverUrl = "https://sensordataanalyserbackend.azurewebsites.net/"
+        let serverUrl = "http://localhost:8080/"
+        
         init(parent1 : DocumentPicker) {
             parent = parent1
         }
@@ -39,7 +42,9 @@ struct DocumentPicker : UIViewControllerRepresentable {
             
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(fileUrl, withName: "file")
-            }, to: "http://localhost:8080/upload")
+            }, to: "\(serverUrl)upload")
+            //https://sensordataanalyserbackend.azurewebsites.net/
+            //http://localhost:8080/upload
                 .responseDecodable(of: Root.self) { response in
                     debugPrint(response)
                 }

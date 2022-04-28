@@ -36,6 +36,9 @@ struct Home: View {
     @State private var setColor: Color = Color.black
     
     
+    //let serverUrl = "https://sensordataanalyserbackend.azurewebsites.net/"
+    let serverUrl = "http://localhost:8080/"
+    
     
     
     
@@ -270,75 +273,75 @@ struct Home: View {
         }
     }
     // Kunnon datalla:
+    
+    func deviationToColor(deviation: Double) -> Color {
+        
+        let deviation = deviation
+        
+        switch deviation {
+        case 0...0.01:
+            return .green
+        case  0.01...0.06:
+            return .orange
+        case  0.06...100:
+            return  .red
+        default:
+            return .white
+        }
+    }
+    
+    
+    func deviationToColor2(deviation: Double) -> Color {
+        
+        let deviation = deviation
+        
+        switch deviation {
+        case 0...0.01:
+            return .green
+        case  0.01...0.06:
+            return .orange
+        case  0.06...100:
+            return  .red
+        default:
+            return .white
+        }
+    }
+    
     /*
-    func deviationToColor(deviation: Double) -> Color {
-        
-        let deviation = deviation
-        
-        switch deviation {
-        case 0...0.01:
-            return .green
-        case  0.01...0.06:
-            return .orange
-        case  0.06...100:
-            return  .red
-        default:
-            return .white
-        }
-    }
-    
-    
-    func deviationToColor2(deviation: Double) -> Color {
-        
-        let deviation = deviation
-        
-        switch deviation {
-        case 0...0.01:
-            return .green
-        case  0.01...0.06:
-            return .orange
-        case  0.06...100:
-            return  .red
-        default:
-            return .white
-        }
-    }
-    */
-    
-    // Joonaksen datalla
-    func deviationToColor(deviation: Double) -> Color {
-        
-        let deviation = deviation
-        
-        switch deviation {
-        case 0...2:
-            return .green
-        case  2...2.8:
-            return .orange
-        case  2.8...100:
-            return  .red
-        default:
-            return .white
-        }
-    }
-    
-    
-    func deviationToColor2(deviation: Double) -> Color {
-        
-        let deviation = deviation
-        
-        switch deviation {
-        case 0...2:
-            return .green
-        case  2...2.8:
-            return .orange
-        case  2.8...100:
-            return  .red
-        default:
-            return .white
-        }
-    }
-    
+     // Joonaksen datalla
+     func deviationToColor(deviation: Double) -> Color {
+     
+     let deviation = deviation
+     
+     switch deviation {
+     case 0...2:
+     return .green
+     case  2...2.8:
+     return .orange
+     case  2.8...100:
+     return  .red
+     default:
+     return .white
+     }
+     }
+     
+     
+     func deviationToColor2(deviation: Double) -> Color {
+     
+     let deviation = deviation
+     
+     switch deviation {
+     case 0...2:
+     return .green
+     case  2...2.8:
+     return .orange
+     case  2.8...100:
+     return  .red
+     default:
+     return .white
+     }
+     }
+     */
     
     
     private let monthsWithNumber = ["January": 1, "February": 2, "March" : 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12]
@@ -362,11 +365,22 @@ struct Home: View {
         GridItem(.fixed(200))
     ]
     
+    //Memory test stuff
+    //@State private var tapCount = 0
+    //@State private var tapCount = UserDefaults.standard.integer(forKey: "Tap")
+    @AppStorage("tapCount") private var tapCount = 0
     
     var body: some View {
         
         
         ScrollView {
+            
+            
+            Button("Annoyingly useless button: \(tapCount)") {
+                tapCount += 1
+                //UserDefaults.standard.set(self.tapCount, forKey: "Tap")
+            }.buttonStyle(.bordered)
+            
             Text("Total average:\(String(aveRage))")
             //Text("Total average way 2: \(String(aveRage))")
             //Text("Deviation \(String(aveRage))")
@@ -378,9 +392,7 @@ struct Home: View {
                 .font(.system(size: 20, design: .rounded))
                 .task  {
                     //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
-                    await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/allAverage/")
-                    
-               
+                    await loadData(searchAdress: "\(serverUrl)files/allAverage/")
                 }
             
             ZStack {
@@ -404,7 +416,7 @@ struct Home: View {
                         .font(.system(size: 20, design: .rounded))
                         .task {
                             //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
-                            await loadRecentAverage(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/recent/")
+                            await loadRecentAverage(searchAdress: "\(serverUrl)files/recent/")
                             
                         }
                     HStack {
@@ -417,9 +429,9 @@ struct Home: View {
                             .font(.system(size: 20, design: .rounded))
                             .task {
                                 //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
-                                await loadRecentAverage(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/recent/")
+                                await loadRecentAverage(searchAdress: "\(serverUrl)files/recent/")
                                 //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
-                                await loadData(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/allAverage/")
+                                await loadData(searchAdress: "\(serverUrl)files/allAverage/")
                                 //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
                                 //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
                             }
@@ -428,12 +440,15 @@ struct Home: View {
                         if (reCent - aveRage) < 0 {
                             Image(systemName: "arrow.down")
                                 .foregroundColor(.white)
+                                .font(.system(size: 45))
                         } else if (reCent - aveRage) > 0 {
                             Image(systemName: "arrow.up")
                                 .foregroundColor(.white)
+                                .font(.system(size: 45))
                         } else {
                             Image(systemName: "arrow.left.and.right")
                                 .foregroundColor(.white)
+                                .font(.system(size: 45))
                         }
                     }
                     
@@ -463,7 +478,7 @@ struct Home: View {
                                     .font(.system(size: 20, design: .rounded))
                                     .task {
                                         //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
-                                        await loadMonthDataForGrid(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/monthDataMath/", month: month)
+                                        await loadMonthDataForGrid(searchAdress: "\(serverUrl)files/monthDataMath/", month: month)
                                         
                                     }
                             } else {
@@ -471,9 +486,9 @@ struct Home: View {
                                     .foregroundColor((deviationToColor2(deviation: abs((resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0) - aveRage))))
                                     .font(.system(size: 20, design: .rounded))
                                     .task {
-                                       //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
-                                        await loadMonthDataForGrid(searchAdress: "https://sensordataanalyserbackend.azurewebsites.net/files/monthDataMath/", month: month)
-
+                                        //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
+                                        await loadMonthDataForGrid(searchAdress: "\(serverUrl)files/monthDataMath/", month: month)
+                                        
                                     }
                                 
                             }
