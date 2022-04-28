@@ -371,136 +371,133 @@ struct Home: View {
     @AppStorage("tapCount") private var tapCount = 0
     
     var body: some View {
-        
-        
-        ScrollView {
+        ZStack {
+            RadialGradient(gradient: Gradient(colors: [.blue, .black]), center: .center, startRadius: 2, endRadius: 650)
+                .edgesIgnoringSafeArea(.all)
             
-            
-            Button("Annoyingly useless button: \(tapCount)") {
-                tapCount += 1
-                //UserDefaults.standard.set(self.tapCount, forKey: "Tap")
-            }.buttonStyle(.bordered)
-            
-            Text("Total average:\(String(aveRage))")
-            //Text("Total average way 2: \(String(aveRage))")
-            //Text("Deviation \(String(aveRage))")
-                .frame(maxWidth: .infinity, minHeight: 70)
-                .background(.indigo)
-                .foregroundColor(.white)
-                .cornerRadius(15)
-                .padding(.bottom)
-                .font(.system(size: 20, design: .rounded))
-                .task  {
-                    //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
-                    await loadData(searchAdress: "\(serverUrl)files/allAverage/")
-                }
-            
-            ZStack {
-                Rectangle()
+            ScrollView {
+                Button("Annoyingly useless button: \(tapCount)") {
+                    tapCount += 1
+                }.buttonStyle(.bordered)
                 
-                    .frame(width: .infinity, height: 200)
-                //.foregroundColor(.indigo)
-                    .foregroundColor(deviationToColor(deviation: abs(reCent - aveRage)))
+                Text("Total average:\(String(aveRage))")
+                    .frame(maxWidth: .infinity, minHeight: 70)
+                    .background(.indigo)
+                    .foregroundColor(.white)
                     .cornerRadius(15)
-                //.padding()
+                    .padding(.bottom)
+                    .font(.system(size: 20, design: .rounded))
+                    .task  {
+                        //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
+                        await loadData(searchAdress: "\(serverUrl)files/allAverage/")
+                    }
                 
-                VStack{
+                ZStack {
+                    Rectangle()
                     
-                    Text("Most recent average: \(String(reCent))")
-                    //Text("Deviation \(String(aveRage))")
-                        .frame(maxWidth: .infinity, minHeight: 70)
-                    
-                        .foregroundColor(.white)
+                        .frame(width: .infinity, height: 200)
+                    //.foregroundColor(.indigo)
+                        .foregroundColor(deviationToColor(deviation: abs(reCent - aveRage)))
                         .cornerRadius(15)
+                    //.padding()
                     
-                        .font(.system(size: 20, design: .rounded))
-                        .task {
-                            //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
-                            await loadRecentAverage(searchAdress: "\(serverUrl)files/recent/")
-                            
-                        }
-                    HStack {
-                        Text("Deviation |last  - average|: \(String(abs(reCent - aveRage)))")
+                    VStack{
+                        
+                        Text("Most recent average: \(String(reCent))")
                         //Text("Deviation \(String(aveRage))")
-                        //.frame(maxWidth: .infinity, minHeight: 70)
-                        //.background(deviationToColor(deviation: abs(reCent - aveRage)))
+                            .frame(maxWidth: .infinity, minHeight: 70)
+                        
                             .foregroundColor(.white)
-                        //.padding(.bottom)
+                            .cornerRadius(15)
+                        
                             .font(.system(size: 20, design: .rounded))
                             .task {
                                 //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
                                 await loadRecentAverage(searchAdress: "\(serverUrl)files/recent/")
-                                //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
-                                await loadData(searchAdress: "\(serverUrl)files/allAverage/")
-                                //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
-                                //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
+                                
                             }
-                        
-                        
-                        if (reCent - aveRage) < 0 {
-                            Image(systemName: "arrow.down")
+                        HStack {
+                            Text("Deviation |last  - average|: \(String(abs(reCent - aveRage)))")
+                            //Text("Deviation \(String(aveRage))")
+                            //.frame(maxWidth: .infinity, minHeight: 70)
+                            //.background(deviationToColor(deviation: abs(reCent - aveRage)))
                                 .foregroundColor(.white)
-                                .font(.system(size: 45))
-                        } else if (reCent - aveRage) > 0 {
-                            Image(systemName: "arrow.up")
-                                .foregroundColor(.white)
-                                .font(.system(size: 45))
-                        } else {
-                            Image(systemName: "arrow.left.and.right")
-                                .foregroundColor(.white)
-                                .font(.system(size: 45))
+                            //.padding(.bottom)
+                                .font(.system(size: 20, design: .rounded))
+                                .task {
+                                    //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
+                                    await loadRecentAverage(searchAdress: "\(serverUrl)files/recent/")
+                                    //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
+                                    await loadData(searchAdress: "\(serverUrl)files/allAverage/")
+                                    //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
+                                    //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
+                                }
+                            
+                            
+                            if (reCent - aveRage) < 0 {
+                                Image(systemName: "arrow.down")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 45))
+                            } else if (reCent - aveRage) > 0 {
+                                Image(systemName: "arrow.up")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 45))
+                            } else {
+                                Image(systemName: "arrow.left.and.right")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 45))
+                            }
                         }
+                        
+                        
                     }
                     
-                    
-                }
+                }.padding(.bottom)
                 
-            }.padding(.bottom)
-            
-            LazyVGrid(columns: adaptiveColumns) {
-                
-                ForEach(months, id: \.self) { month in
+                LazyVGrid(columns: adaptiveColumns) {
                     
-                    ZStack {
+                    ForEach(months, id: \.self) { month in
                         
-                        Rectangle()
-                            .frame(width: 150, height: 150)
-                            .foregroundColor(.indigo)
-                            .cornerRadius(15)
-                        
-                        VStack {
-                            Text("\(month)")
-                                .foregroundColor(.white)
-                                .font(.system(size: 20, design: .rounded))
-                            if ((resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0)) == 0 {
-                                Text("-")
+                        ZStack {
+                            
+                            Rectangle()
+                                .frame(width: 150, height: 150)
+                                .foregroundColor(.indigo)
+                                .cornerRadius(15)
+                            
+                            VStack {
+                                Text("\(month)")
                                     .foregroundColor(.white)
                                     .font(.system(size: 20, design: .rounded))
-                                    .task {
-                                        //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
-                                        await loadMonthDataForGrid(searchAdress: "\(serverUrl)files/monthDataMath/", month: month)
-                                        
-                                    }
-                            } else {
-                                Text("\(resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0)")
-                                    .foregroundColor((deviationToColor2(deviation: abs((resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0) - aveRage))))
-                                    .font(.system(size: 20, design: .rounded))
-                                    .task {
-                                        //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
-                                        await loadMonthDataForGrid(searchAdress: "\(serverUrl)files/monthDataMath/", month: month)
-                                        
-                                    }
-                                
+                                if ((resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0)) == 0 {
+                                    Text("-")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 20, design: .rounded))
+                                        .task {
+                                            //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
+                                            await loadMonthDataForGrid(searchAdress: "\(serverUrl)files/monthDataMath/", month: month)
+                                            
+                                        }
+                                } else {
+                                    Text("\(resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0)")
+                                        .foregroundColor((deviationToColor2(deviation: abs((resultsMonth[String(monthToNumber(month: month))]?[0] ?? 0.0) - aveRage))))
+                                        .font(.system(size: 20, design: .rounded))
+                                        .task {
+                                            //await loadMonthDataForGrid(searchAdress: "http://localhost:8080/files/monthDataMath/", month: month)
+                                            await loadMonthDataForGrid(searchAdress: "\(serverUrl)files/monthDataMath/", month: month)
+                                            
+                                        }
+                                    
+                                }
                             }
                         }
                     }
                 }
             }
+            .navigationTitle("Data Analyzer")
+            .padding()
+            //.navigationBarHidden(true)
         }
-        .navigationTitle("Data Analyzer")
-        .padding()
-        //.navigationBarHidden(true)
-        
     }
     
     

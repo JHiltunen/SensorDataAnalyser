@@ -13,9 +13,6 @@ struct Upload: View {
     @State var selectedFileName: String = ""
     
     var body: some View {
-        VStack {
-        Text("Data Analyzer")
-            .font(.title)
         ZStack {
             RadialGradient(gradient: Gradient(colors: [.blue, .black]), center: .center, startRadius: 2, endRadius: 650)
                 .edgesIgnoringSafeArea(.all)
@@ -60,7 +57,6 @@ struct Upload: View {
                 }
                 
             } .padding()
-        }
         }
     }
 }
