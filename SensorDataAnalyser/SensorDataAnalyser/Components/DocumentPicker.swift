@@ -2,7 +2,6 @@ import SwiftUI
 import Foundation
 import MobileCoreServices
 import UniformTypeIdentifiers
-import Alamofire
 
 // tutorial: https://www.youtube.com/watch?v=q8y_eRVfpMA
 struct DocumentPicker : UIViewControllerRepresentable {
@@ -11,6 +10,8 @@ struct DocumentPicker : UIViewControllerRepresentable {
     }
     
     @Binding var alert : Bool
+    @Binding var selectedFileURL : String
+    @Binding var selectedFileName : String
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController  {
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.json])
@@ -22,9 +23,7 @@ struct DocumentPicker : UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker>) {
         
     }
-    struct Root : Decodable {
-        let data : [String]
-    }
+    
     class Coordinator : NSObject, UIDocumentPickerDelegate {
         
         var parent : DocumentPicker
@@ -39,7 +38,10 @@ struct DocumentPicker : UIViewControllerRepresentable {
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             print(urls)
             let fileUrl = urls[0]
-            
+            parent.selectedFileURL = fileUrl.absoluteString
+            let lastIndex = fileUrl.absoluteString.lastIndex(of: "/")
+            parent.selectedFileName = String(fileUrl.absoluteString.suffix(from: fileUrl.absoluteString.index(lastIndex!, offsetBy: 1)))
+
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(fileUrl, withName: "file")
             }, to: "\(serverUrl)upload")
@@ -58,5 +60,6 @@ struct DocumentPicker : UIViewControllerRepresentable {
                     debugPrint(response)
                 }
         }
+        
     }
 }
