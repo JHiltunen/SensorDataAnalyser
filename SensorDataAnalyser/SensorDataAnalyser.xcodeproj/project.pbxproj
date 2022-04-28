@@ -28,6 +28,7 @@
 		065717A428168EA600AD374A /* ResponseMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMonth.swift; sourceTree = "<group>"; };
 		06C58F13281295B600294A0E /* ResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseTest.swift; sourceTree = "<group>"; };
 		06C58F16281296D300294A0E /* MathFunctions1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathFunctions1.swift; sourceTree = "<group>"; };
+		06F0538F2819711A00FB33F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6A3630E428100AFB00F77C9F /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		6A3630E8281026C700F77C9F /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		6A5F65AC2819274C006E3D4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
