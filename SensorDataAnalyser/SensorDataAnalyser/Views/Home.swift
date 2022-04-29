@@ -35,9 +35,13 @@ struct Home: View {
     
     @State private var setColor: Color = Color.black
     
+    @AppStorage("tapCount") private var tapCount = 0
+    @AppStorage("orange") private var orange = 0.1
+    @AppStorage("red") private var red = 0.5
     
-    //let serverUrl = "https://sensordataanalyserbackend.azurewebsites.net/"
-    let serverUrl = "http://localhost:8080/"
+    
+    let serverUrl = "https://sensordataanalyserbackend.azurewebsites.net/"
+    //let serverUrl = "http://localhost:8080/"
     
     
     
@@ -279,11 +283,11 @@ struct Home: View {
         let deviation = deviation
         
         switch deviation {
-        case 0...0.01:
+        case 0...orange:
             return .green
-        case  0.01...0.06:
+        case  orange...red:
             return .orange
-        case  0.06...100:
+        case  red...100:
             return  .red
         default:
             return .white
@@ -296,11 +300,11 @@ struct Home: View {
         let deviation = deviation
         
         switch deviation {
-        case 0...0.01:
+        case 0...orange:
             return .green
-        case  0.01...0.06:
+        case  orange...red:
             return .orange
-        case  0.06...100:
+        case  red...100:
             return  .red
         default:
             return .white
@@ -368,7 +372,7 @@ struct Home: View {
     //Memory test stuff
     //@State private var tapCount = 0
     //@State private var tapCount = UserDefaults.standard.integer(forKey: "Tap")
-    @AppStorage("tapCount") private var tapCount = 0
+    
     
     var body: some View {
         ZStack {
@@ -376,10 +380,7 @@ struct Home: View {
                 .edgesIgnoringSafeArea(.all)
             
             ScrollView {
-                Button("Annoyingly useless button: \(tapCount)") {
-                    tapCount += 1
-                }.buttonStyle(.bordered)
-                
+            
                 Text("Total average:\(String(aveRage))")
                     .frame(maxWidth: .infinity, minHeight: 70)
                     .background(.indigo)
@@ -394,17 +395,12 @@ struct Home: View {
                 
                 ZStack {
                     Rectangle()
-                    
-                        .frame(width: .infinity, height: 200)
-                    //.foregroundColor(.indigo)
+                        .frame(width: .infinity, height: 170)
                         .foregroundColor(deviationToColor(deviation: abs(reCent - aveRage)))
                         .cornerRadius(15)
-                    //.padding()
-                    
+                
                     VStack{
-                        
                         Text("Most recent average: \(String(reCent))")
-                        //Text("Deviation \(String(aveRage))")
                             .frame(maxWidth: .infinity, minHeight: 70)
                         
                             .foregroundColor(.white)
@@ -412,27 +408,17 @@ struct Home: View {
                         
                             .font(.system(size: 20, design: .rounded))
                             .task {
-                                //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
                                 await loadRecentAverage(searchAdress: "\(serverUrl)files/recent/")
                                 
                             }
                         HStack {
                             Text("Deviation |last  - average|: \(String(abs(reCent - aveRage)))")
-                            //Text("Deviation \(String(aveRage))")
-                            //.frame(maxWidth: .infinity, minHeight: 70)
-                            //.background(deviationToColor(deviation: abs(reCent - aveRage)))
                                 .foregroundColor(.white)
-                            //.padding(.bottom)
                                 .font(.system(size: 20, design: .rounded))
                                 .task {
-                                    //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
                                     await loadRecentAverage(searchAdress: "\(serverUrl)files/recent/")
-                                    //await loadData(searchAdress: "http://localhost:8080/files/allAverage/")
                                     await loadData(searchAdress: "\(serverUrl)files/allAverage/")
-                                    //await loadRecentAverage(searchAdress: "http://localhost:8080/files/recent/")
-                                    //await loadMonthData(searchAdress: "http://localhost:8080/files/monthDataMath/")
                                 }
-                            
                             
                             if (reCent - aveRage) < 0 {
                                 Image(systemName: "arrow.down")
@@ -448,8 +434,6 @@ struct Home: View {
                                     .font(.system(size: 45))
                             }
                         }
-                        
-                        
                     }
                     
                 }.padding(.bottom)
