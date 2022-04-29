@@ -40,8 +40,8 @@ struct Home: View {
     @AppStorage("red") private var red = 0.5
     
     
-    //let serverUrl = "https://sensordataanalyserbackend.azurewebsites.net/"
-    let serverUrl = "http://localhost:8080/"
+    let serverUrl = "https://sensordataanalyserbackend.azurewebsites.net/"
+    //let serverUrl = "http://localhost:8080/"
     
     
     

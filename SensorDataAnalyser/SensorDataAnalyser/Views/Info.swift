@@ -37,7 +37,7 @@ struct Info: View {
                 
                 ZStack {
                     Rectangle()
-                        .frame(width: .infinity, height: 130)
+                        .frame(minWidth: 200, minHeight: 130)
                         .foregroundColor(.white)
                         .cornerRadius(15)
                     
@@ -58,7 +58,7 @@ struct Info: View {
 
                 ZStack {
                     Rectangle()
-                        .frame(width: .infinity, height: 150)
+                        .frame(minWidth: 200, minHeight: 130)
                         .foregroundColor(.yellow)
                         .cornerRadius(15)
                     
@@ -78,6 +78,9 @@ struct Info: View {
                                 .background(Color.gray.opacity(0.2))
                         
                         }.padding()
+                        if (redNumber < orangeNumber) {
+                            Text("Red must be bigger than orange!")
+                        }
                         
                         if redString != "" && orangeString != ""{
                             Button ( action: {
@@ -92,6 +95,8 @@ struct Info: View {
                                 } else {
                                     orangeString = ""
                                     redString = ""
+                                    
+                                    
                                 }
                                 
                             }, label: {
@@ -100,6 +105,8 @@ struct Info: View {
                             })
                             .buttonStyle(.borderedProminent)
                             .padding()
+                        
+                          
                         }
                     }
                 }.padding()
