@@ -21,6 +21,8 @@ struct Info: View {
     @State private var orangeNumber: Double = 0.0
     @State private var redString: String = ""
     @State private var orangeString: String = ""
+    @State private var input: String = ""
+    @State private var output: String = ""
     @AppStorage("orange") private var orange = 0.1
     @AppStorage("red") private var red = 0.5
     
@@ -62,15 +64,22 @@ struct Info: View {
                     
                     VStack{
                         VStack {
-                            TextField("Insert new value for orange", text: $orangeString)
+                            TextField("Insert new value for orange", text: $orangeString) {
+                                orangeNumber = Double(orangeString) ?? 0.1
+                            }
                                 .keyboardType(.decimalPad)
                                 .foregroundColor(.gray)
-                            TextField("Insert new value for red", text: $redString)
+                                .background(Color.gray.opacity(0.2))
+                            TextField("Insert new value for red", text: $redString){
+                                redNumber = Double(redString) ?? 0.1
+                            }
                                 .keyboardType(.decimalPad)
                                 .foregroundColor(.gray)
+                                .background(Color.gray.opacity(0.2))
+                        
                         }.padding()
                         
-                        if redString != "" && orangeString != "" {
+                        if redString != "" && orangeString != ""{
                             Button ( action: {
                                 //self.showAlert.toggle()
                                 orangeNumber = Double(orangeString) ?? 0.1
