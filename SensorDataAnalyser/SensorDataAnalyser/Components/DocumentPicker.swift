@@ -28,8 +28,8 @@ struct DocumentPicker : UIViewControllerRepresentable {
         
         var parent : DocumentPicker
         
-        //let serverUrl = "https://sensordataanalyserbackend.azurewebsites.net/"
-        let serverUrl = "http://localhost:8080/"
+        let serverUrl = "https://sensordataanalyserbackend.azurewebsites.net/"
+        // let serverUrl = "http://localhost:8080/"
         
         init(parent1 : DocumentPicker) {
             parent = parent1

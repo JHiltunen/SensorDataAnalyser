@@ -12,10 +12,7 @@ class NumbersOnly: ObservableObject {
     }
 }
 
-
-
 struct Info: View {
-    
     
     @State private var redNumber: Double = 0.0
     @State private var orangeNumber: Double = 0.0
@@ -28,17 +25,17 @@ struct Info: View {
     
     @State private var buttonText: String = "Change"
     
+    @FocusState private var values: Bool
     
     var body: some View {
         ZStack {
             RadialGradient(gradient: Gradient(colors: [.blue, .black]), center: .center, startRadius: 2, endRadius: 650)
                 .edgesIgnoringSafeArea(.all)
             VStack {
-                
                 ZStack {
                     Rectangle()
-                        .frame(minWidth: 200, minHeight: 130)
-                        .foregroundColor(.white)
+                        .frame(maxWidth: 350, maxHeight: 100)
+                        .foregroundColor(.indigo)
                         .cornerRadius(15)
                     
                     VStack {
@@ -58,33 +55,43 @@ struct Info: View {
 
                 ZStack {
                     Rectangle()
-                        .frame(minWidth: 200, minHeight: 130)
-                        .foregroundColor(.yellow)
+                        .frame(maxWidth: 350, maxHeight: 300)
+                        .foregroundColor(Color.indigo)
                         .cornerRadius(15)
                     
                     VStack{
+                        Text("Insert values")
+                            .font(.title2)
+                            .foregroundColor(.white)
                         VStack {
                             TextField("Insert new value for orange", text: $orangeString) {
                                 orangeNumber = Double(orangeString) ?? 0.1
                             }
                                 .keyboardType(.decimalPad)
-                                .foregroundColor(.gray)
-                                .background(Color.gray.opacity(0.2))
+                                .font(.title2)
+                                .padding(.bottom)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(maxWidth: 290, maxHeight: 20)
+                            
                             TextField("Insert new value for red", text: $redString){
                                 redNumber = Double(redString) ?? 0.1
                             }
                                 .keyboardType(.decimalPad)
-                                .foregroundColor(.gray)
-                                .background(Color.gray.opacity(0.2))
+                                .font(.title2)
+                                .textFieldStyle(.roundedBorder)
+                                .focused($values)
+                                .frame(maxWidth: 290, maxHeight: 50)
+                        }
+                        .padding()
                         
-                        }.padding()
                         if (redNumber < orangeNumber) {
                             Text("Red must be bigger than orange!")
+                                .font(.title3)
+                                .foregroundColor(.white)
                         }
                         
                         if redString != "" && orangeString != ""{
                             Button ( action: {
-                                //self.showAlert.toggle()
                                 orangeNumber = Double(orangeString) ?? 0.1
                                 redNumber = Double(redString) ?? 0.1
                                 if redNumber > orangeNumber {
@@ -95,18 +102,14 @@ struct Info: View {
                                 } else {
                                     orangeString = ""
                                     redString = ""
-                                    
-                                    
                                 }
-                                
+                                values = false
                             }, label: {
                                 Text(buttonText)
                                     .foregroundColor(.gray)
                             })
                             .buttonStyle(.borderedProminent)
                             .padding()
-                        
-                          
                         }
                     }
                 }.padding()
