@@ -223,7 +223,7 @@ struct Home: View {
                 
                 ZStack {
                     Rectangle()
-                        .frame(maxWidth: 350, minHeight: 150)
+                        .frame(maxWidth: .infinity, minHeight: 150)
                         .foregroundColor(deviationToColor(deviation: abs(reCent - aveRage)))
                         .cornerRadius(15)
                         .shadow(radius: 10)
@@ -268,7 +268,7 @@ struct Home: View {
                     ForEach(months, id: \.self) { month in
                         ZStack {
                             Rectangle()
-                                .frame(width: 150, height: 150)
+                                .frame(maxWidth: .infinity, minHeight: 100)
                                 .foregroundColor(.indigo)
                                 .cornerRadius(15)
                             
@@ -300,7 +300,7 @@ struct Home: View {
                     }
                 }
             }
-            .padding()
+            .padding(30)
         }
     }
 }
