@@ -12,29 +12,32 @@ struct Upload: View {
     @State var alertTitle = ""
     @State var alertMessage = ""
     
-    @State var selectedFileUrl: String = ""
-    @State var selectedFileName: String = ""
+    @State var selectedFileUrls: [String] = []
+    @State var selectedFileNames: [String] = []
     
     var body: some View {
         ZStack {
             RadialGradient(gradient: Gradient(colors: [.blue, .black]), center: .center, startRadius: 2, endRadius: 650)
                 .edgesIgnoringSafeArea(.all)
             VStack {
-                Text(" \(selectedFileName)")
-                    .multilineTextAlignment(TextAlignment.center)
-                    .padding(.bottom)
+                
+                let string = selectedFileNames.joined(separator: ", ")
+                Text("\(string)")
+                
                 Button(action: {
                     self.show.toggle()
                 }) {
                     Text("Select file")
                 }
                 .sheet(isPresented: $show) {
-                    DocumentPicker(alert: self.$alert, selectedFileURL: self.$selectedFileUrl, selectedFileName: self.$selectedFileName)
+                    DocumentPicker(alert: self.$alert, selectedFileUrls: self.$selectedFileUrls, selectedFileNames: self.$selectedFileNames)
                 }
                 
                 Button(action: {
                     AF.upload(multipartFormData: { multipartFormData in
-                        multipartFormData.append(URL(string: selectedFileUrl)!, withName: "file")
+                        selectedFileUrls.forEach { fileUrl in
+                            multipartFormData.append(URL(string: fileUrl)!, withName: "files")
+                        }
                     }, to: "http://localhost:8080/upload")
                     .responseDecodable(of: UploadResponse.self) { response in
                         
@@ -49,13 +52,13 @@ struct Upload: View {
                         }
                         
                     }
-                    selectedFileName = ""
-                    selectedFileUrl = ""
+                    selectedFileNames = [""]
+                    selectedFileUrls = [""]
                 }) {
                     Text("Upload file")
                         .padding()
                 }
-                .disabled(selectedFileUrl.isEmpty ? true : false)
+                .disabled(selectedFileUrls.isEmpty ? true : false)
                 .alert(isPresented: $alert) {
                     Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("Ok")))
                 }
