@@ -1,7 +1,5 @@
 import SwiftUI
 
-
-
 struct ContentView: View {
     
     init() {
@@ -22,8 +20,8 @@ struct ContentView: View {
                 }
             Info()
                 .tabItem {
-                    Image(systemName: "info.circle")
-                    Text("Info")
+                    Image(systemName: "slider.horizontal.3")
+                    Text("Treshold")
                 }
         } .accentColor(.white)
     }

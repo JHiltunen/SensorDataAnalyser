@@ -27,6 +27,7 @@ struct Upload: View {
                     self.show.toggle()
                 }) {
                     Text("Select file")
+                        .font(.title2)
                 }
                 .sheet(isPresented: $show) {
                     DocumentPicker(alert: self.$alert, selectedFileURL: self.$selectedFileUrl, selectedFileName: self.$selectedFileName)
@@ -47,13 +48,13 @@ struct Upload: View {
                             alertMessage = "Wrong file type. Please upload only .json files!"
                             alert = true
                         }
-                        
                     }
                     selectedFileName = ""
                     selectedFileUrl = ""
                 }) {
                     Text("Upload file")
                         .padding()
+                        .font(.title3)
                 }
                 .disabled(selectedFileUrl.isEmpty ? true : false)
                 .alert(isPresented: $alert) {
