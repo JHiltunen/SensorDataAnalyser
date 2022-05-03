@@ -39,7 +39,7 @@ struct DocumentPicker : UIViewControllerRepresentable {
             urls.forEach {parent.selectedFileUrls.append($0.absoluteString)}
             
             parent.selectedFileUrls.forEach { url in
-                var urlSeparatedBySlash = url.components(separatedBy: "/")
+                let urlSeparatedBySlash = url.components(separatedBy: "/")
                 parent.selectedFileNames.append(urlSeparatedBySlash[urlSeparatedBySlash.count - 1])
             }
         }
