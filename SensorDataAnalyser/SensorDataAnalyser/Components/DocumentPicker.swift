@@ -10,18 +10,18 @@ struct DocumentPicker : UIViewControllerRepresentable {
     }
     
     @Binding var alert : Bool
-    @Binding var selectedFileURL : String
-    @Binding var selectedFileName : String
+    @Binding var selectedFileUrls : [String]
+    @Binding var selectedFileNames : [String]
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController  {
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.json])
-        picker.allowsMultipleSelection = false
+        picker.allowsMultipleSelection = true;
         picker.delegate = context.coordinator
         return picker
     }
     
     func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker>) {
-        
+        uiViewController.allowsMultipleSelection = true
     }
     
     class Coordinator : NSObject, UIDocumentPickerDelegate {
@@ -36,11 +36,12 @@ struct DocumentPicker : UIViewControllerRepresentable {
         }
         
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            print(urls)
-            let fileUrl = urls[0]
-            parent.selectedFileURL = fileUrl.absoluteString
-            let lastIndex = fileUrl.absoluteString.lastIndex(of: "/")
-            parent.selectedFileName = String(fileUrl.absoluteString.suffix(from: fileUrl.absoluteString.index(lastIndex!, offsetBy: 1)))
+            urls.forEach {parent.selectedFileUrls.append($0.absoluteString)}
+            
+            parent.selectedFileUrls.forEach { url in
+                var urlSeparatedBySlash = url.components(separatedBy: "/")
+                parent.selectedFileNames.append(urlSeparatedBySlash[urlSeparatedBySlash.count - 1])
+            }
         }
         
     }

@@ -27,6 +27,7 @@
 		065717A22816773100AD374A /* ResponseAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAll.swift; sourceTree = "<group>"; };
 		065717A428168EA600AD374A /* ResponseMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMonth.swift; sourceTree = "<group>"; };
 		06C58F13281295B600294A0E /* ResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseTest.swift; sourceTree = "<group>"; };
+		06C58F16281296D300294A0E /* MathFunctions1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathFunctions1.swift; sourceTree = "<group>"; };
 		6A3630E428100AFB00F77C9F /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		6A3630E8281026C700F77C9F /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		6A5F65AC2819274C006E3D4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -345,7 +346,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SensorDataAnalyser/Preview Content\"";
-				DEVELOPMENT_TEAM = JRZ7ZT88JB;
+				DEVELOPMENT_TEAM = NS26X99XW4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SensorDataAnalyser/Info.plist;
@@ -359,7 +360,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fi.SensorDataAnalyser.fi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fi.SensorDataAnalyser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -375,7 +376,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SensorDataAnalyser/Preview Content\"";
-				DEVELOPMENT_TEAM = JRZ7ZT88JB;
+				DEVELOPMENT_TEAM = NS26X99XW4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SensorDataAnalyser/Info.plist;
@@ -389,7 +390,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fi.SensorDataAnalyser.fi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fi.SensorDataAnalyser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
