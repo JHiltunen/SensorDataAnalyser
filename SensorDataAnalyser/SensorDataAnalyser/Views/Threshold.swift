@@ -12,7 +12,7 @@ class NumbersOnly: ObservableObject {
     }
 }
 
-struct Info: View {
+struct Threshold: View {
     
     @State private var redNumber: Double = 0.0
     @State private var orangeNumber: Double = 0.0

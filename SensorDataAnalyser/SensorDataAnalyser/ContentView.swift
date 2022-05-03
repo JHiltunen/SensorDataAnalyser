@@ -18,10 +18,10 @@ struct ContentView: View {
                     Image(systemName: "icloud.and.arrow.up")
                     Text("Upload")
                 }
-            Info()
+            Threshold()
                 .tabItem {
                     Image(systemName: "slider.horizontal.3")
-                    Text("Treshold")
+                    Text("Threshold")
                 }
         } .accentColor(.white)
     }
